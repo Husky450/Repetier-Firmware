@@ -185,11 +185,11 @@ short readStrainGauge( unsigned char uAddress )
 
 	Wire.beginTransmission( uAddress );
 	Wire.requestFrom( (uint8_t)uAddress, (uint8_t)3 );
-        
+
 	Result =  Wire.read();
     Result =  Result << 8;
 	Result += Wire.read();
-        
+
 	Register = Wire.read();
 	Wire.endTransmission();
 
@@ -607,7 +607,7 @@ void scanHeatBed( void )
 				{
 					g_uHeatBedMaxY = nIndexY;
 				}
-		
+
 				g_nHeatBedScanStatus = 49;
 				g_lastScanTime		 = HAL::timeInMilliseconds();
 				break;
@@ -999,7 +999,7 @@ short readAveragePressure( short* pnAveragePressure )
 			}
 			break;
 		}
-	
+
 		// wait some extra amount of time in case our results were not constant enough
 		HAL::delayMilliseconds( 100 );
 		runStandardTasks();
@@ -1060,7 +1060,7 @@ short moveZUpFast( void )
 			{
 				Com::printFLN( PSTR( "moveZUpFast(): the z position went out of range, retries = " ), (int)g_scanRetries );
 			}
-			
+
 			if( g_scanRetries )	g_retryScan = 1;
 			else				g_abortScan = 1;
 			break;
@@ -1115,7 +1115,7 @@ short moveZDownSlow( void )
 			{
 				Com::printFLN( PSTR( "moveZDownSlow(): the z position went out of range, retries = " ), g_scanRetries );
 			}
-			
+
 			if( g_scanRetries )	g_retryScan = 1;
 			else				g_abortScan = 1;
 			break;
@@ -1129,7 +1129,7 @@ short moveZDownSlow( void )
 				{
 					Com::printFLN( PSTR( "moveZDownSlow(): the z position delta went out of range, retries = " ), g_scanRetries );
 				}
-			
+
 				if( g_scanRetries )	g_retryScan = 1;
 				else				g_abortScan = 1;
 				break;
@@ -1185,7 +1185,7 @@ short moveZUpSlow( short* pnContactPressure, char* pnRetry )
 			{
 				Com::printFLN( PSTR( "moveZUpSlow(): the z position went out of range, retries = " ), g_scanRetries );
 			}
-			
+
 			if( g_scanRetries )	g_retryScan = 1;
 			else				g_abortScan = 1;
 			break;
@@ -1238,14 +1238,14 @@ int moveZ( int nSteps )
 {
 	int		i;
 	int		nMaxLoops;
-	
+
 
 	// Warning: this function does not check any end stops
 /*	if( g_nDirectionZ )
 	{
 		// this function must not move the z-axis in case the "main" interrupt (bresenhamStep()) is running at the moment
 		return 0;
-	}			
+	}
 */
 	// choose the direction
 	if( nSteps >= 0 )
@@ -1272,7 +1272,7 @@ int moveZ( int nSteps )
 			g_nLastZDirection = -1;
 		}
 	}
-	
+
 	// perform the steps
 	for( i=0; i<nMaxLoops; i++ )
 	{
@@ -1297,8 +1297,8 @@ int moveExtruder( int nSteps )
 {
 	int		i;
 	int		nMaxLoops;
-	
-	
+
+
 	HAL::forbidInterrupts();
 	Extruder::enable();
     HAL::delayMicroseconds(EXTRUDER_DIRECTION_CHANGE_DELAY);
@@ -1333,7 +1333,7 @@ int moveExtruder( int nSteps )
 
 	HAL::allowInterrupts();
 	return nSteps;
-	
+
 } // moveExtruder
 
 
@@ -1475,7 +1475,7 @@ char prepareCompensationMatrix( void )
 		}
 		return -1;
 	}
-	
+
 	if( g_uHeatBedMaxX > HEAT_BED_COMPENSATION_X || g_uHeatBedMaxX < 2 )
 	{
 		if( Printer::debugErrors() )
@@ -1632,7 +1632,7 @@ char convertCompensationMatrix( void )
 			// we calculate the average of each rectangle m[x][y], m[x+1][y], m[x][y+1], m[x+1][y+1] and store it to m[x][y]
 			nSum = g_HeatBedCompensation[x][y] +
 				   g_HeatBedCompensation[x+1][y] +
-				   g_HeatBedCompensation[x][y+1] + 
+				   g_HeatBedCompensation[x][y+1] +
 				   g_HeatBedCompensation[x+1][y+1];
 			g_HeatBedCompensation[x][y] = short(nSum / 4);
 
@@ -1661,7 +1661,7 @@ char saveCompensationMatrix( void )
 		// we have valid compensation values
 		// write the current version
 		writeByte24C256( I2C_ADDRESS_EXTERNAL_EEPROM, EEPROM_OFFSET_VERSION, COMPENSATION_VERSION );
-		
+
 		// write the current x dimension
 		writeWord24C256( I2C_ADDRESS_EXTERNAL_EEPROM, EEPROM_OFFSET_DIMENSION_X, g_uHeatBedMaxX );
 
@@ -1697,7 +1697,7 @@ char saveCompensationMatrix( void )
 		// we do not have valid compensation values - clear the EEPROM data
 		// write the current version
 		writeByte24C256( I2C_ADDRESS_EXTERNAL_EEPROM, EEPROM_OFFSET_VERSION, 0 );
-		
+
 		// write the current x dimension
 		writeWord24C256( I2C_ADDRESS_EXTERNAL_EEPROM, EEPROM_OFFSET_DIMENSION_X, 0 );
 
@@ -1951,7 +1951,7 @@ void writeByte24C256( int addressI2C, unsigned int addressEEPROM, unsigned char 
     Wire.write( data );
     Wire.endTransmission();
 	return;
-    
+
 } // writeByte24C256
 
 
@@ -1977,9 +1977,9 @@ unsigned char readByte24C256( int addressI2C, unsigned int addressEEPROM )
     Wire.write( int(addressEEPROM & 0xFF));		// LSB
     Wire.endTransmission();
     Wire.requestFrom( addressI2C, 1 );
-    
+
     return Wire.read();
-    
+
 } // readByte24C256
 
 
@@ -2004,8 +2004,8 @@ void loopRF1000( void )
 	static char		nEntered = 0;
 	unsigned long	uTime;
 	short			nPressure;
-	
-	
+
+
 #if FEATURE_WATCHDOG
     HAL::pingWatchdog();
 #endif // FEATURE_WATCHDOG
@@ -2019,15 +2019,17 @@ void loopRF1000( void )
 
 	uTime = HAL::timeInMilliseconds();
 
-	if( Printer::prepareFanOff )
-	{
-		if( (uTime - Printer::prepareFanOff) > Printer::fanOffDelay )
-		{
-			// it is time to turn the case fan off
-			Printer::prepareFanOff = 0;
-			WRITE( CASE_FAN_PIN, 0 );
-		}
-	}
+#if defined(CASE_FAN_PIN) && CASE_FAN_PIN >= 0
+if( Printer::prepareFanOff )
+{
+if( (uTime - Printer::prepareFanOff) > Printer::fanOffDelay )
+{
+// it is time to turn the case fan off
+Printer::prepareFanOff = 0;
+WRITE( CASE_FAN_PIN, 0 );
+}
+}
+#endif // defined(CASE_FAN_PIN) && CASE_FAN_PIN >= 0
 
 #if FEATURE_Z_COMPENSATION
 	doZCompensation();
@@ -2196,7 +2198,7 @@ void loopRF1000( void )
 			}
 		}
 	}
-	
+
 #if FEATURE_ABORT_PRINT_AFTER_TEMPERATURE_ERROR
 	if( Printer::isAnyTempsensorDefect() && sd.sdmode && PrintLine::linesCount )
 	{
@@ -2708,7 +2710,7 @@ void determinePausePosition( void )
 		{
 			// we can move only partially
 			Temp = PAUSE_Z_MAX - Printer::targetPositionStepsZ;
-			
+
 #if FEATURE_Z_COMPENSATION
 			Temp -= Printer::nonCompensatedPositionStepsZ;
 			Temp -= Printer::currentCompensationZ;
@@ -3025,7 +3027,7 @@ void processCommand( GCode* pCommand )
 						Com::printF( PSTR( "M3020: new x start position: " ), nTemp );
 						Com::printF( PSTR( " [mm], " ), (int)g_nScanXStartSteps );
 						Com::printFLN( PSTR( " [steps]" ) );
-					}				
+					}
 				}
 				else
 				{
@@ -3949,7 +3951,7 @@ void runStandardTasks( void )
 	{
 		Commands::executeGCode( pCode );
 	}
-    Commands::checkForPeriodicalActions(); 
+    Commands::checkForPeriodicalActions();
 	return;
 
 } // runStandardTasks
@@ -3967,7 +3969,7 @@ void queueTask( char task )
 		GCode::readFromSerial();
 		Commands::checkForPeriodicalActions();
 	}
-  
+
 	PrintLine::queueTask( task );
 	return;
 
@@ -4378,7 +4380,7 @@ unsigned short drv8711Receive( unsigned char address )
 	}
 
 	HAL::delayMicroseconds( 20 );
-  
+
 	// read the acknowledge (12 bits)
 	for( i=11; i>=0; i-- )
 	{
@@ -4459,7 +4461,7 @@ void drv8711Disable( unsigned char driver )
 void drv8711Init( void )
 {
 	char	i;
-  
+
 
 	// configure the pins
 	WRITE( DRV_RESET1, LOW );
@@ -4499,7 +4501,7 @@ void drv8711Init( void )
 #endif // DRV_RESET2
 
 	HAL::delayMicroseconds( 5000 );
-  
+
 	// configure all registers except the motor current (= register 01)
 	drv8711EnableAll();
 	drv8711Transmit( DRV8711_REGISTER_00 );
@@ -4542,8 +4544,8 @@ void setMotorCurrent( unsigned char driver, unsigned short level )
 {
 	unsigned short	command;
 	char			i;
-	
-	
+
+
 	// NOTE: Do not increase the current endlessly. In case the engine reaches its current saturation, the engine and the driver can heat up and loss power.
 	// When the saturation is reached, more current causes more heating and more power loss.
 	// In case of engines with lower quality, the saturation current may be reached before the nominal current.
@@ -4553,7 +4555,7 @@ void setMotorCurrent( unsigned char driver, unsigned short level )
 	SET_OUTPUT( DRV_SCLK );
 	WRITE( DRV_SDATI, LOW );
 	SET_OUTPUT( DRV_SDATI );
-		
+
 	drv8711Enable( driver);
 
 	// we have to write to register 01
@@ -4595,7 +4597,7 @@ void cleanupXPositions( void )
 #if FEATURE_EXTENDED_BUTTONS
 	Printer::targetPositionStepsX = Printer::currentPositionStepsX = 0;
 #endif // FEATURE_EXTENDED_BUTTONS
-	
+
 #if FEATURE_PAUSE_PRINTING
 	g_nContinueStepsX = 0;
 	g_pausePrint	  = 0;
@@ -4620,7 +4622,7 @@ void cleanupYPositions( void )
 #if FEATURE_EXTENDED_BUTTONS
 	Printer::targetPositionStepsY = Printer::currentPositionStepsY = 0;
 #endif // FEATURE_EXTENDED_BUTTONS
-	
+
 #if FEATURE_PAUSE_PRINTING
 	g_nContinueStepsY = 0;
 	g_pausePrint	  = 0;
@@ -4648,7 +4650,7 @@ void cleanupZPositions( void )
 #if FEATURE_EXTENDED_BUTTONS
 	Printer::targetPositionStepsZ = Printer::currentPositionStepsZ = 0;
 #endif // FEATURE_EXTENDED_BUTTONS
-	
+
 #if FEATURE_PAUSE_PRINTING
 	g_nContinueStepsZ = 0;
 	g_pausePrint	  = 0;
@@ -4670,7 +4672,7 @@ void cleanupEPositions( void )
 #if FEATURE_EXTENDED_BUTTONS
 	Printer::targetPositionStepsE = Printer::currentPositionStepsE = 0;
 #endif // FEATURE_EXTENDED_BUTTONS
-	
+
 #if FEATURE_PAUSE_PRINTING
 	g_nContinueStepsExtruder = 0;
 	g_pausePrint			 = 0;
@@ -4719,7 +4721,7 @@ void doZCompensation( void )
 #endif // FEATURE_WATCHDOG
 
 				g_recalculatedCompensation ++;
-					
+
 				// find the rectangle first which covers the current position of the extruder
 				nXLeft = 1;
 				for( i=1; i<g_uHeatBedMaxX; i++ )
@@ -4733,7 +4735,7 @@ void doZCompensation( void )
 					}
 					nXLeft = i;
 				}
-					
+
 				nYFront = 1;
 				for( i=1; i<g_uHeatBedMaxY; i++ )
 				{
@@ -4752,7 +4754,7 @@ void doZCompensation( void )
 				g_maxX = (long)((float)g_HeatBedCompensation[nXRight][0] * XAXIS_STEPS_PER_MM);
 				g_minY = (long)((float)g_HeatBedCompensation[0][nYFront] * YAXIS_STEPS_PER_MM);
 				g_maxY = (long)((float)g_HeatBedCompensation[0][nYBack] * YAXIS_STEPS_PER_MM);
-					
+
 				if( Printer::nonCompensatedPositionStepsZ <= g_noZCompensationSteps )
 				{
 					// the printer is very close to the surface - we shall print a layer of exactly the desired thickness
@@ -4767,13 +4769,13 @@ void doZCompensation( void )
 					nTemp *= (g_HeatBedCompensation[nXLeft][nYFront] - g_offsetHeatBedCompensation);
 					nTemp >>= 8;
 					nTemp += g_offsetHeatBedCompensation;
-						
+
 					Printer::targetCompensationZ = nTemp + g_manualCompensationSteps;
 				}
 			}
 		}
 		else
-		{	
+		{
 			// after the first layers, only the static offset to the surface must be compensated
 			Printer::targetCompensationZ = g_offsetHeatBedCompensation + g_manualCompensationSteps;
 		}
