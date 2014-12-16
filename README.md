@@ -5,7 +5,7 @@ Based on Repetier-Firmware - the fast and user friendly firmware.
 
 The firmware is compiled and downloaded with Arduino V 1.0.5 or later.
 
-## Version 0.91.48 (2014-11-24)
+## Version 0.91.48dual (2014-12-16)
 
 * Current stable release.
 
