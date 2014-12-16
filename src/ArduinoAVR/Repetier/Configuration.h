@@ -46,11 +46,11 @@ To override EEPROM settings with config settings, set EEPROM_MODE 0
 // BASIC SETTINGS: select your board type, thermistor type, axis scaling, and endstop configuration
 
 /** Define the to-be-use micro steps */
-#define	RF1000_MICRO_STEPS	32
+#define	RF1000_MICRO_STEPS	8
 
 
 /** Number of extruders. Maximum 6 extruders. */
-#define NUM_EXTRUDER 1
+#define NUM_EXTRUDER 2
 
 //// The following define selects which electronics board you have. Please choose the one that matches your setup
 // Gen3 PLUS for RepRap Motherboard V1.2 = 21
@@ -154,11 +154,11 @@ If a motor turns in the wrong direction change INVERT_X_DIR or INVERT_Y_DIR.
 /** \brief Number of steps for a 1mm move in x direction.
 For xy gantry use 2*belt moved!
 Overridden if EEPROM activated. */
-#define XAXIS_STEPS_PER_MM	long(4.761875 * (float)RF1000_MICRO_STEPS)
+#define XAXIS_STEPS_PER_MM	long(4.7825 * (float)RF1000_MICRO_STEPS)
 /** \brief Number of steps for a 1mm move in y direction.
 For xy gantry use 2*belt moved!
 Overridden if EEPROM activated.*/
-#define YAXIS_STEPS_PER_MM	long(4.761875 * (float)RF1000_MICRO_STEPS)
+#define YAXIS_STEPS_PER_MM	long(4.7825 * (float)RF1000_MICRO_STEPS)
 /** \brief Number of steps for a 1mm move in z direction  Overridden if EEPROM activated.*/
 #define ZAXIS_STEPS_PER_MM	long(80 * (float)RF1000_MICRO_STEPS)
 #endif
@@ -173,7 +173,7 @@ Overridden if EEPROM activated.*/
 #define EXT0_X_OFFSET 0
 #define EXT0_Y_OFFSET 0
 // for skeinforge 40 and later, steps to pull the plasic 1 mm inside the extruder, not out.  Overridden if EEPROM activated.
-#define EXT0_STEPS_PER_MM	(8.75 * RF1000_MICRO_STEPS)
+#define EXT0_STEPS_PER_MM	(8.875 * RF1000_MICRO_STEPS)
 
 // What type of sensor is used?
 // 1 is 100k thermistor (Epcos B57560G0107F000 - RepRap-Fab.org and many other)
@@ -225,7 +225,7 @@ Overridden if EEPROM activated.*/
 */
 #define EXT0_HEAT_MANAGER 1
 /** Wait x seconds, after reaching target temperature. Only used for M109.  Overridden if EEPROM activated. */
-#define EXT0_WATCHPERIOD 20
+#define EXT0_WATCHPERIOD 10
 
 /** \brief The maximum value, I-gain can contribute to the output.
 
@@ -237,7 +237,7 @@ Values for starts:
 The precise values may differ for different nozzle/resistor combination.
  Overridden if EEPROM activated.
 */
-#define EXT0_PID_INTEGRAL_DRIVE_MAX 180
+#define EXT0_PID_INTEGRAL_DRIVE_MAX 130
 /** \brief lower value for integral part
 
 The I state should converge to the exact heater output needed for the target temperature.
@@ -245,14 +245,14 @@ To prevent a long deviation from the target zone, this value limits the lower va
 A good start is 30 lower then the optimal value. You need to leave room for cooling.
  Overridden if EEPROM activated.
 */
-#define EXT0_PID_INTEGRAL_DRIVE_MIN 40
+#define EXT0_PID_INTEGRAL_DRIVE_MIN 60
 /** P-gain.  Overridden if EEPROM activated. */
-#define EXT0_PID_P   20
+#define EXT0_PID_P   7.89
 /** I-gain. Overridden if EEPROM activated.
 */
-#define EXT0_PID_I   5
+#define EXT0_PID_I   1.78
 /** Dgain.  Overridden if EEPROM activated.*/
-#define EXT0_PID_D 13
+#define EXT0_PID_D 8.77
 // maximum time the heater is can be switched on. Max = 255.  Overridden if EEPROM activated.
 #define EXT0_PID_MAX 255
 /** \brief Faktor for the advance algorithm. 0 disables the algorithm.  Overridden if EEPROM activated.
@@ -286,10 +286,10 @@ The codes are only executed for multiple extruder when changing the extruder. */
 
 
 // =========================== Configuration for second extruder ========================
-#define EXT1_X_OFFSET 10
-#define EXT1_Y_OFFSET 0
+#define EXT1_X_OFFSET (-1.917 * RF1000_MICRO_STEPS)
+#define EXT1_Y_OFFSET (-137.0655 * RF1000_MICRO_STEPS)
 // for skeinforge 40 and later, steps to pull the plasic 1 mm inside the extruder, not out.  Overridden if EEPROM activated.
-#define EXT1_STEPS_PER_MM 51
+#define EXT1_STEPS_PER_MM (8.875 * RF1000_MICRO_STEPS)
 // What type of sensor is used?
 // 1 is 100k thermistor (Epcos B57560G0107F000 - RepRap-Fab.org and many other)
 // 2 is 200k thermistor
@@ -310,9 +310,9 @@ The codes are only executed for multiple extruder when changing the extruder. */
 // 101 is MAX6675
 #define EXT1_TEMPSENSOR_TYPE 3
 // Analog input pin for reading temperatures or pin enabling SS for MAX6675
-#define EXT1_TEMPSENSOR_PIN TEMP_2_PIN
+#define EXT1_TEMPSENSOR_PIN TEMP_1_PIN
 // Which pin enables the heater
-#define EXT1_HEATER_PIN HEATER_2_PIN
+#define EXT1_HEATER_PIN HEATER_1_PIN
 #define EXT1_STEP_PIN E1_STEP_PIN
 #define EXT1_DIR_PIN E1_DIR_PIN
 // set to 0/1 for normal / inverse direction
@@ -338,7 +338,7 @@ The codes are only executed for multiple extruder when changing the extruder. */
 */
 #define EXT1_HEAT_MANAGER 1
 /** Wait x seconds, after reaching target temperature. Only used for M109.  Overridden if EEPROM activated. */
-#define EXT1_WATCHPERIOD 20
+#define EXT1_WATCHPERIOD 10
 
 /** \brief The maximum value, I-gain can contribute to the output.
 
@@ -358,14 +358,14 @@ To prevent a long deviation from the target zone, this value limits the lower va
 A good start is 30 lower then the optimal value. You need to leave room for cooling.
  Overridden if EEPROM activated.
 */
-#define EXT1_PID_INTEGRAL_DRIVE_MIN 50
+#define EXT1_PID_INTEGRAL_DRIVE_MIN 60
 /** P-gain.  Overridden if EEPROM activated. */
-#define EXT1_PID_P   500
+#define EXT1_PID_P   2.40 //37.52
 /** I-gain.  Overridden if EEPROM activated.
 */
-#define EXT1_PID_I   1
+#define EXT1_PID_I   0.54 //10
 /** D-gain.  Overridden if EEPROM activated.*/
-#define EXT1_PID_D 3000
+#define EXT1_PID_D 2.68 //35.18
 // maximum time the heater is can be switched on. Max = 255.  Overridden if EEPROM activated.
 #define EXT1_PID_MAX 255
 /** \brief Faktor for the advance algorithm. 0 disables the algorithm.  Overridden if EEPROM activated.
@@ -380,7 +380,7 @@ needed to move the motor cog in reverse direction until it hits the driving
 cog. Direct drive extruder need 0. */
 #define EXT1_ADVANCE_BACKLASH_STEPS 0
 
-#define EXT1_WAIT_RETRACT_TEMP 	150
+#define EXT1_WAIT_RETRACT_TEMP 	170
 #define EXT1_WAIT_RETRACT_UNITS	0
 #define EXT1_SELECT_COMMANDS "M117 Extruder 2"
 #define EXT1_DESELECT_COMMANDS ""
@@ -539,7 +539,7 @@ Value is used for all generic tables created. */
 /** \brief Set true if you have a heated bed conected to your board, false if not */
 #define HAVE_HEATED_BED true
 
-#define HEATED_BED_MAX_TEMP 180
+#define HEATED_BED_MAX_TEMP 200
 /** Skip M190 wait, if heated bed is already within x degrees. Fixed numbers only, 0 = off. */
 #define SKIP_M190_IF_WITHIN 3
 
@@ -575,11 +575,11 @@ A good start is 30 lower then the optimal value. You need to leave room for cool
 */
 #define HEATED_BED_PID_INTEGRAL_DRIVE_MIN 80
 /** P-gain.  Overridden if EEPROM activated. */
-#define HEATED_BED_PID_PGAIN   53.74
+#define HEATED_BED_PID_PGAIN   111.77 //53.74
 /** I-gain  Overridden if EEPROM activated.*/
-#define HEATED_BED_PID_IGAIN   7.48
+#define HEATED_BED_PID_IGAIN   30.59 //7.48
 /** Dgain.  Overridden if EEPROM activated.*/
-#define HEATED_BED_PID_DGAIN 96.52
+#define HEATED_BED_PID_DGAIN  89.34 //96.52
 // maximum time the heater can be switched on. Max = 255.  Overridden if EEPROM activated.
 #define HEATED_BED_PID_MAX 255
 
@@ -673,9 +673,9 @@ on this endstop.
 
 // For higher precision you can reduce the speed for the second test on the endstop
 // during homing operation. The homing speed is divided by the value. 1 = same speed, 2 = half speed
-#define ENDSTOP_X_RETEST_REDUCTION_FACTOR 20
-#define ENDSTOP_Y_RETEST_REDUCTION_FACTOR 20
-#define ENDSTOP_Z_RETEST_REDUCTION_FACTOR 20
+#define ENDSTOP_X_RETEST_REDUCTION_FACTOR 10
+#define ENDSTOP_Y_RETEST_REDUCTION_FACTOR 10
+#define ENDSTOP_Z_RETEST_REDUCTION_FACTOR 10
 
 // When you have several endstops in one circuit you need to disable it after homing by moving a
 // small amount back. This is also the case with H-belt systems.
@@ -715,7 +715,7 @@ on this endstop.
 #elif MOTHERBOARD==12
 #define MOTOR_CURRENT {53570,65535,53570,65535,53570} // Values 0-65535 (53570 = ~1.5A)
 #elif MOTHERBOARD==13
-#define MOTOR_CURRENT {150,150,126,126,126} // Values 0-255 (126 = ~2A), order: driver 1 (x), driver 2 (y), driver 3 (z), driver 4 (extruder 1), driver 5 (reserved)
+#define MOTOR_CURRENT {150,150,140,150,150} // Values 0-255 (126 = ~2A), order: driver 1 (x), driver 2 (y), driver 3 (z), driver 4 (extruder 1), driver 5 (reserved)
 #endif
 
 /** \brief Number of segments to generate for delta conversions per second of move
@@ -816,7 +816,7 @@ Mega. Used only for nonlinear systems like delta or tuga. */
     This helps cooling the Stepper motors between two print jobs.
     Overridden if EEPROM activated.
 */
-#define STEPPER_INACTIVE_TIME 600
+#define STEPPER_INACTIVE_TIME 360
 /** After x seconds of inactivity, the system will go down as far it can.
     It will at least disable all stepper motors and heaters. If the board has
     a power pin, it will be disabled, too.
@@ -833,9 +833,9 @@ Mega. Used only for nonlinear systems like delta or tuga. */
 #define MAX_FEEDRATE_Z  50
 
 /** Home position speed in mm/s. Overridden if EEPROM activated. */
-#define HOMING_FEEDRATE_X 165
-#define HOMING_FEEDRATE_Y 165
-#define HOMING_FEEDRATE_Z 10
+#define HOMING_FEEDRATE_X 165 //165
+#define HOMING_FEEDRATE_Y 165 //165
+#define HOMING_FEEDRATE_Z 10 //10
 
 /** Set order of axis homing. Use HOME_ORDER_XYZ and replace XYZ with your order. */
 #define HOMING_ORDER HOME_ORDER_XYZ
@@ -885,13 +885,13 @@ If the interval at full speed is below this value, smoothing is disabled for tha
 /** \brief X, Y, Z max acceleration in mm/s^2 for printing moves or retracts. Make sure your printer can go that high!
  Overridden if EEPROM activated.
 */
-#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_X 1000
-#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_Y 1000
+#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_X 1000 //1000
+#define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_Y 1000 //1000
 #define MAX_ACCELERATION_UNITS_PER_SQ_SECOND_Z 100
 
 /** \brief X, Y, Z max acceleration in mm/s^2 for travel moves.  Overridden if EEPROM activated.*/
-#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_X 1000
-#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_Y 1000
+#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_X 1000 //1000
+#define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_Y 1000 //1000
 #define MAX_TRAVEL_ACCELERATION_UNITS_PER_SQ_SECOND_Z 100
 
 /** \brief Maximum allowable jerk.
@@ -917,8 +917,8 @@ Corner can be printed with full speed of 50 mm/s
 
 Overridden if EEPROM activated.
 */
-#define MAX_JERK  10  // 0.5
-#define MAX_ZJERK 0.1  // 0.3
+#define MAX_JERK  10  // 0.5 //10
+#define MAX_ZJERK 0.1  // 0.3 //0.1
 
 /** \brief Number of moves we can cache in advance.
 
@@ -1043,7 +1043,7 @@ matches, the stored values are used to overwrite the settings.
 IMPORTANT: With mode <>0 some changes in Configuration.h are not set any more, as they are
            taken from the EEPROM.
 */
-#define EEPROM_MODE 1
+#define EEPROM_MODE 3 //1
 
 
 /**************** duplicate motor driver ***************
@@ -1141,8 +1141,8 @@ is always running and is not hung up for some unknown reason. */
 #define CASE_LIGHTS_DEFAULT_ON		 0
 
 /* Define a pin to turn the case fan on/off */
-#define	CASE_FAN_PIN				 9	// PINH.6, 18, HZ2
-#define	CASE_FAN_ON_TEMPERATURE		50	// �C
+#define	CASE_FAN_PIN				 25	// PINA.3, 75, OUT1	// PINH.6, 18, HZ2 orig9
+#define	CASE_FAN_ON_TEMPERATURE		45	// Â°C
 #define	CASE_FAN_OFF_DELAY		 60000	// [ms]
 
 /* Enable the following define for applications where the case fan shall always be on */
@@ -1210,7 +1210,7 @@ Select the language to use.
 5 = Spanish
 6 = Swedish
 */
-#define UI_LANGUAGE 0
+#define UI_LANGUAGE 1
 
 /** Animate switches between menus etc. */
 #define UI_ANIMATION false
@@ -1298,7 +1298,7 @@ Values must be in range 1..255
 #define FEATURE_EXTENDED_BUTTONS			1													// 1 = on, 0 = off
 #define EXTENDED_BUTTONS_COUNTER_NORMAL		4													// 39 ~ run 100 times per second, 4 ~ run 1000 times per second
 #define EXTENDED_BUTTONS_COUNTER_FAST		4													// 39 ~ run 100 times per second, 4 ~ run 1000 times per second
-#define	EXTENDED_BUTTONS_STEPPER_DELAY		1													// [�s]
+#define	EXTENDED_BUTTONS_STEPPER_DELAY		1													// [Ã¯Â¿Â½s]
 
 #define	EXTENDED_BUTTONS_Z_MIN				-(ZAXIS_STEPS_PER_MM *2)							// [steps]
 #define	EXTENDED_BUTTONS_Z_MAX				long(ZAXIS_STEPS_PER_MM * (Z_MAX_LENGTH -2))		// [steps]
@@ -1310,7 +1310,7 @@ Values must be in range 1..255
 
 /** \brief Enables automatic compensation in z direction
 
-Printers which are able to scan the surface of the heating bed and to remember the 
+Printers which are able to scan the surface of the heating bed and to remember the
 offsets in z-direction can use this feature in order to perform an automatic compensation
 in z direction during the printing of the first layers.
 */
@@ -1386,7 +1386,7 @@ the Cura PC application may fall over the debug outputs of the firmware.
 
 /** \brief The following script allows to configure the exact behavior of the automatic object output
 */
-#define	OUTPUT_OBJECT_SCRIPT				"G21\nG91\nG1 E-10\nG1 Z210 F5000\nG1 X0 Y220 F7500\n"
+#define	OUTPUT_OBJECT_SCRIPT				"G21\nG91\nG1 Z200 F5000\nG1 X0 Y245 F7500\n"
 
 /** \brief Enables/disables the park feature
 */
@@ -1397,7 +1397,7 @@ the Cura PC application may fall over the debug outputs of the firmware.
 #if FEATURE_PARK
 #define PARK_POSITION_X						0
 #define	PARK_POSITION_Y						120
-#define	PARK_POSITION_Z						175
+#define	PARK_POSITION_Z						200
 #endif // FEATURE_PARK
 
 /** \brief Enables/disables the reset via the printer menu
@@ -1506,17 +1506,17 @@ Enabling of the following feature can be dangerous because it allows to manually
 */
 #define SCAN_X_START_MM					15																// [mm]
 #define SCAN_X_START_STEPS				long(XAXIS_STEPS_PER_MM * SCAN_X_START_MM)						// [steps]
-#define SCAN_X_END_MM					5																// [mm]
+#define SCAN_X_END_MM					15																// [mm]
 #define SCAN_X_END_STEPS				long(XAXIS_STEPS_PER_MM * SCAN_X_END_MM)						// [steps]
-#define SCAN_X_STEP_SIZE_MM				20																// [mm]
+#define SCAN_X_STEP_SIZE_MM				10																// [mm]
 #define SCAN_X_STEP_SIZE_STEPS			long(XAXIS_STEPS_PER_MM * SCAN_X_STEP_SIZE_MM)					// [steps]
 #define SCAN_X_MAX_POSITION_STEPS		long(X_MAX_LENGTH * XAXIS_STEPS_PER_MM - SCAN_X_END_STEPS)		// [steps]
 
-#define	SCAN_Y_START_MM					30																// [mm]
+#define	SCAN_Y_START_MM					25																// [mm]
 #define	SCAN_Y_START_STEPS				long(YAXIS_STEPS_PER_MM * SCAN_Y_START_MM)						// [steps]
-#define	SCAN_Y_END_MM					5																// [mm]
+#define	SCAN_Y_END_MM					15																// [mm]
 #define	SCAN_Y_END_STEPS				long(YAXIS_STEPS_PER_MM * SCAN_Y_END_MM)						// [steps]
-#define SCAN_Y_STEP_SIZE_MM				20																// [mm]
+#define SCAN_Y_STEP_SIZE_MM				10																// [mm]
 #define	SCAN_Y_STEP_SIZE_STEPS			long(YAXIS_STEPS_PER_MM * SCAN_Y_STEP_SIZE_MM)					// [steps]
 #define SCAN_Y_MAX_POSITION_STEPS		long(Y_MAX_LENGTH * YAXIS_STEPS_PER_MM - SCAN_Y_END_STEPS)		// [steps]
 
@@ -1528,15 +1528,15 @@ Enabling of the following feature can be dangerous because it allows to manually
 #define	SCAN_SLOW_STEP_DELAY_MS			100																// [ms]
 #define SCAN_IDLE_DELAY_MS				250																// [ms]
 
-#define SCAN_CONTACT_PRESSURE_DELTA		10																// [digits]
+#define SCAN_CONTACT_PRESSURE_DELTA		5																// [digits]
 #define SCAN_RETRY_PRESSURE_DELTA		5																// [digits]
 #define SCAN_IDLE_PRESSURE_DELTA		0																// [digits]
 #define SCAN_IDLE_PRESSURE_MIN			-5000															// [digits]
 #define SCAN_IDLE_PRESSURE_MAX			5000															// [digits]
 
-#define SCAN_RETRIES					3																// [-]
+#define SCAN_RETRIES					10																// [-]
 #define	SCAN_PRESSURE_READS				15																// [-]
-#define SCAN_PRESSURE_TOLERANCE			15																// [digits]
+#define SCAN_PRESSURE_TOLERANCE			10																// [digits]
 #define SCAN_PRESSURE_READ_DELAY_MS		15																// [ms]
 
 #define REMEMBER_PRESSURE				0
@@ -1563,16 +1563,16 @@ Enabling of the following feature can be dangerous because it allows to manually
 
 /** \brief Automatic filament change, unmounting of the filament - ensure that G1 does not attempt to extrude more than EXTRUDE_MAXLENGTH
 */
-#define	UNMOUNT_FILAMENT_SCRIPT				"G21\nG90\nG92 E0\nG1 E50 F100\nG92 E0\nG1 E-90 F500\n"
+#define	UNMOUNT_FILAMENT_SCRIPT				"G21\nG90\nG92 E0\nG1 E20 F100\nG92 E0\nG1 E-100 F500\n"
 
 /** \brief Automatic filament change, mounting of the filament - ensure that G1 does not attempt to extrude more than EXTRUDE_MAXLENGTH
 */
-#define	MOUNT_FILAMENT_SCRIPT				"G21\nG90\nG92 E0\nG1 E90 F100"
+#define	MOUNT_FILAMENT_SCRIPT				"G21\nG90\nG92 E0\nG1 E100 F100"
 
 /** \brief Printer name and firmware version
 */
-#define UI_PRINTER_NAME "RF1000"
+#define UI_PRINTER_NAME "RF1000-Dual"
 #define UI_PRINTER_COMPANY "Conrad SE"
-#define UI_VERSION_STRING "V " REPETIER_VERSION ".48"
+#define UI_VERSION_STRING "V " REPETIER_VERSION ".48dual"
 
 #endif
