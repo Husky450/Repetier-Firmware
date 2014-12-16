@@ -1,3 +1,7 @@
+V 0.91.47dual (2014-12-16)
+- Adding HZ2 for Dual-Extruder
+- Adding OUT1 for Case fan and Lights
+- Change Microsteps to 8 for better USB Support
 V 0.91.47 (2014-10-29)
 - Adding of M3105, which allows to specify the movement after pause in [mm].
   - M3102 remains available and allows to specify the movement after pause in [steps].
