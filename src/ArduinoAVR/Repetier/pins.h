@@ -1422,10 +1422,10 @@ STEPPER_CURRENT_CONTROL
 #define SDSS				    53	// PINB.0, 19, SS
 #define LED_PIN				    13	// PINB.7, 26, LED13
 
-#if PROTOTYPE_PCB == 1 
+#if PROTOTYPE_PCB == 1
   #define ORIG_FAN_PIN          25	// PINA.3, 75, OUT1
 #else
-  #define ORIG_FAN_PIN          27   // PINA.5, 73, OUT2  
+  #define ORIG_FAN_PIN          27   // PINA.5, 73, OUT2
 #endif
 
 #define PS_ON_PIN			    -1
@@ -1433,7 +1433,7 @@ STEPPER_CURRENT_CONTROL
 #define WATCHDOG_PIN		    37	// PINC.0
 
 #define HEATER_0_PIN		    10	// PINB.4, 23, HZ1
-#define HEATER_1_PIN		    -1
+#define HEATER_1_PIN		    9	// PINH.6, 18, HZ2
 #define HEATER_2_PIN		     8	// PINH.5, 17, HZ3
 
 // analog pin mappings
@@ -1444,7 +1444,7 @@ STEPPER_CURRENT_CONTROL
 #define E0_PINS					ORIG_E0_STEP_PIN, ORIG_E0_DIR_PIN, ORIG_E0_ENABLE_PIN,
 #define E1_PINS					ORIG_E1_STEP_PIN, ORIG_E1_DIR_PIN, ORIG_E1_ENABLE_PIN,
 
-// these pins are defined in the SD library if building with SD support  
+// these pins are defined in the SD library if building with SD support
 #define SCK_PIN				    52	// PINB.1, 20, SCK
 #define MISO_PIN			    50	// PINB.3, 22, MISO
 #define MOSI_PIN			    51	// PINB.2, 21, MOSI
