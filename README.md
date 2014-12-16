@@ -1,4 +1,4 @@
-# RF1000 Firmware
+# RF1000 Dual-Extruder Firmware
 Based on Repetier-Firmware - the fast and user friendly firmware.
 
 ## Installation
