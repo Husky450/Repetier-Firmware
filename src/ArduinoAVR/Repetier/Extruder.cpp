@@ -66,6 +66,14 @@ Is called every 100ms.
 static uint8_t extruderTempErrors = 0;
 void Extruder::manageTemperatures()
 {
+#if FEATURE_CNC_MODE > 0
+	if( Printer::operatingMode != OPERATING_MODE_PRINT )
+	{
+		// we do not check temperatures in case we are not in operating mode print
+		return;
+	}
+#endif FEATURE_CNC_MODE > 0
+
     uint8_t errorDetected = 0;
     for(uint8_t controller=0; controller<NUM_TEMPERATURE_LOOPS; controller++)
     {
@@ -1001,7 +1009,7 @@ void TemperatureController::autotunePID(float temp,uint8_t controllerId,bool sto
                     Com::printFLN(Com::tAPIDMax,maxTemp);
                     if(cycles > 2)
                     {
-                        // Parameter according Ziegler¡§CNichols method: http://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method
+                        // Parameter according ZieglerÂ¡Â§CNichols method: http://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method
                         Ku = (4.0*d)/(3.14159*(maxTemp-minTemp));
                         Tu = ((float)(t_low + t_high)/1000.0);
                         Com::printF(Com::tAPIDKu,Ku);
@@ -1101,7 +1109,16 @@ bool reportTempsensorError()
         }
         else Com::printFLN(Com::tTempSensorWorking);
     }
+
+#if FEATURE_CNC_MODE > 0
+	if( Printer::operatingMode == OPERATING_MODE_PRINT )
+	{
+	    Com::printErrorFLN(Com::tDryModeUntilRestart);
+	}
+#else
     Com::printErrorFLN(Com::tDryModeUntilRestart);
+#endif // FEATURE_CNC_MODE > 0
+
     return true;
 }
 
@@ -1343,4 +1360,3 @@ TemperatureController *tempController[NUM_TEMPERATURE_LOOPS] =
 #endif
 #endif
 };
-
