@@ -183,7 +183,7 @@ private:
     float speedE;                   ///< Speed in E direction at fullInterval in mm/s
     float fullSpeed;                ///< Desired speed mm/s
     float invFullSpeed;             ///< 1.0/fullSpeed for fatser computation
-    float accelerationDistance2;             ///< Real 2.0*distanceÜacceleration mm²/s²
+    float accelerationDistance2;             ///< Real 2.0*distanceÃœacceleration mmÂ²/sÂ²
     float maxJunctionSpeed;         ///< Max. junction speed between this and next segment
     float startSpeed;               ///< Staring speed in mm/s
     float endSpeed;                 ///< Exit speed in mm/s
@@ -317,7 +317,9 @@ public:
 #endif
             // Test Z-Axis every step if necessary, otherwise it could easyly ruin your printer!
             if(isZNegativeMove() && Printer::isZMinEndstopHit())
+			{
                 setZMoveFinished();
+			}
         if(isZPositiveMove() && Printer::isZMaxEndstopHit())
         {
 #if MAX_HARDWARE_ENDSTOP_Z
@@ -575,13 +577,6 @@ public:
         totalStepsRemaining--;
 #endif
     }
-    inline void startZStep()
-    {
-        WRITE(Z_STEP_PIN,HIGH);
-#if FEATURE_TWO_ZSTEPPER
-        WRITE(Z2_STEP_PIN,HIGH);
-#endif
-    }
     void updateStepsParameter();
     inline float safeSpeed();
     void calculateMove(float axis_diff[],uint8_t pathOptimize);
@@ -660,7 +655,7 @@ public:
 
 		p = getNextWriteLine();
 		p->task = task;
-  
+
 		nextPlannerIndex( linesWritePos );
 		BEGIN_INTERRUPT_PROTECTED
 		linesCount++;
@@ -681,6 +676,58 @@ public:
 #endif
 };
 
+
+inline void prepareBedUp( void )
+{
+	WRITE( Z_DIR_PIN, INVERT_Z_DIR );
+#if FEATURE_TWO_ZSTEPPER
+	WRITE( Z2_DIR_PIN, INVERT_Z_DIR );
+#endif
+
+#if FEATURE_CNC_MODE == 2
+	Printer::decreaseLastZDirection();
+#endif // FEATURE_CNC_MODE == 2
+
+} // prepareBedUp
+
+
+inline void prepareBedDown( void )
+{
+	WRITE( Z_DIR_PIN, !INVERT_Z_DIR );
+#if FEATURE_TWO_ZSTEPPER
+	WRITE( Z2_DIR_PIN, !INVERT_Z_DIR );
+#endif
+
+#if FEATURE_CNC_MODE == 2
+	Printer::increaseLastZDirection();
+#endif // FEATURE_CNC_MODE == 2
+
+} // prepareBedDown
+
+
+inline void startZStep( char nDirection )
+{
+    WRITE( Z_STEP_PIN,HIGH );
+#if FEATURE_TWO_ZSTEPPER
+    WRITE( Z2_STEP_PIN,HIGH );
+#endif
+
+#if FEATURE_CNC_MODE == 2
+	if( Printer::endstopZMinHit )	Printer::stepsSinceZMinEndstop += nDirection;
+	if( Printer::endstopZMaxHit )	Printer::stepsSinceZMaxEndstop += nDirection;
+#endif // FEATURE_CNC_MODE == 2
+
+} // startZStep
+
+
+inline void endZStep( void )
+{
+    WRITE( Z_STEP_PIN, LOW );
+#if FEATURE_TWO_ZSTEPPER
+    WRITE( Z2_STEP_PIN, LOW );
+#endif
+
+} // endZStep
 
 
 #endif // MOTION_H_INCLUDED
