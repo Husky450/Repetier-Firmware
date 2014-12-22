@@ -1402,13 +1402,15 @@ STEPPER_CURRENT_CONTROL
 #define ORIG_Y_DIR_PIN          61	// PINF.7, 90, DIR_DRV2
 #define ORIG_Y_ENABLE_PIN       56	// PINF.2, 95, ENA_DRV2
 #define ORIG_Y_MIN_PIN           2	// PINE.4,  6, ES2
-#define ORIG_Y_MAX_PIN          -1   // not installed
+#define ORIG_Y_MAX_PIN          -1  // not installed
 
 #define ORIG_Z_STEP_PIN         46	// PINL.3, 38, STP_DRV3
 #define ORIG_Z_DIR_PIN          48	// PINL.1, 36, DIR_DRV3
 #define ORIG_Z_ENABLE_PIN       62	// PINK.0, 89, ENA_DRV3
+
+// the RF1000 with CNC functionality can provide min and max endstops at the same pin
 #define ORIG_Z_MIN_PIN          31	// PINC.6, 59, ES3
-#define ORIG_Z_MAX_PIN          -1   // not installed
+#define ORIG_Z_MAX_PIN          31	// PINC.6, 59, ES3
 
 #define ORIG_E0_STEP_PIN        26	// PINA.4, 74, STP_DRV4
 #define ORIG_E0_DIR_PIN         28	// PINA.6, 72, DIR_DRV4
@@ -2109,4 +2111,3 @@ STEPPER_CURRENT_CONTROL
 #define SENSITIVE_PINS {0, 1, X_STEP_PIN, X_DIR_PIN, X_ENABLE_PIN, ORIG_X_MIN_PIN, X_MAX_PIN, Y_STEP_PIN, Y_DIR_PIN, Y_ENABLE_PIN, Y_MIN_PIN, Y_MAX_PIN, Z_STEP_PIN, Z_DIR_PIN, Z_ENABLE_PIN, Z_MIN_PIN, Z_MAX_PIN, LED_PIN, PS_ON_PIN, \
                         HEATER_0_PIN, HEATER_1_PIN, ORIG_FAN_PIN, E0_PINS E1_PINS E2_PINS TEMP_0_PIN, TEMP_1_PIN,SDSS }
 #endif
-
