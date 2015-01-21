@@ -903,7 +903,7 @@ Mega. Used only for nonlinear systems like delta or tuga. */
     This helps cooling the Stepper motors between two print jobs.
     Overridden if EEPROM activated.
 */
-#define STEPPER_INACTIVE_TIME 360
+#define STEPPER_INACTIVE_TIME 600
 /** After x seconds of inactivity, the system will go down as far it can.
     It will at least disable all stepper motors and heaters. If the board has
     a power pin, it will be disabled, too.
@@ -1825,6 +1825,6 @@ Enabling of the following feature can be dangerous because it allows to manually
 */
 #define UI_PRINTER_NAME "RF1000-Dual"
 #define UI_PRINTER_COMPANY "Conrad SE"
-#define UI_VERSION_STRING "V " REPETIER_VERSION ".49dual"
+#define UI_VERSION_STRING "V " REPETIER_VERSION ".51dual"
 
 #endif
