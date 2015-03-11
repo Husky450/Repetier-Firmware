@@ -101,7 +101,7 @@ class Extruder   // Size: 12*1 Byte+12*4 Byte+4*2Byte = 68 Byte
 #if STEPPER_ON_DELAY
 	char	enabled;
 #endif // STEPPER_ON_DELAY
-
+	
     /** \brief Sends the high-signal to the stepper for next extruder step.
     Call this function only, if interrupts are disabled.
     */
@@ -205,7 +205,7 @@ class Extruder   // Size: 12*1 Byte+12*4 Byte+4*2Byte = 68 Byte
 #if NUM_EXTRUDER==1
         if(dir)
         {
-//            if( g_nMainDirectionE != 1 )
+            if( g_nMainDirectionE != 1 )
             {
                 WRITE(EXT0_DIR_PIN,!EXT0_INVERSE);
                 g_nMainDirectionE = 1;
@@ -213,7 +213,7 @@ class Extruder   // Size: 12*1 Byte+12*4 Byte+4*2Byte = 68 Byte
         }
         else
         {
-//            if( g_nMainDirectionE != -1 )
+            if( g_nMainDirectionE != -1 )
             {
                 WRITE(EXT0_DIR_PIN,EXT0_INVERSE);
                 g_nMainDirectionE = -1;
