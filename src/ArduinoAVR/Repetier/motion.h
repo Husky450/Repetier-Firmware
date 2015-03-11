@@ -183,7 +183,7 @@ private:
     float speedE;                   ///< Speed in E direction at fullInterval in mm/s
     float fullSpeed;                ///< Desired speed mm/s
     float invFullSpeed;             ///< 1.0/fullSpeed for fatser computation
-    float accelerationDistance2;             ///< Real 2.0*distanceÃœacceleration mmÂ²/sÂ²
+    float accelerationDistance2;             ///< Real 2.0*distanceÜacceleration mm²/s²
     float maxJunctionSpeed;         ///< Max. junction speed between this and next segment
     float startSpeed;               ///< Staring speed in mm/s
     float endSpeed;                 ///< Exit speed in mm/s
@@ -432,9 +432,15 @@ public:
     }
     inline static void resetPathPlanner()
     {
-        linesCount = 0;
-        linesPos = linesWritePos;
+        linesCount	  = 0;
+        linesPos	  = 0;
+		linesWritePos = 0;
     }
+	inline static void resetLineBuffer()
+	{
+		cur = NULL;
+		memset( lines, 0, sizeof( PrintLine ) * MOVE_CACHE_SIZE );
+	}
     inline void updateAdvanceSteps(speed_t v,uint8_t max_loops,bool accelerate)
     {
 #ifdef USE_ADVANCE
@@ -581,6 +587,7 @@ public:
     inline float safeSpeed();
     void calculateMove(float axis_diff[],uint8_t pathOptimize);
     void logLine();
+    void logLine2();
     inline long getWaitTicks()
     {
         return timeInTicks;
@@ -630,6 +637,7 @@ public:
     static inline void computeMaxJunctionSpeed(PrintLine *previous,PrintLine *current);
     static long bresenhamStep();
     static void waitForXFreeLines(uint8_t b=1);
+	static bool checkForXFreeLines(uint8_t freeLines=1);
     static inline void forwardPlanner(uint8_t p);
     static inline void backwardPlanner(uint8_t p,uint8_t last);
     static void updateTrapezoids();
@@ -655,7 +663,7 @@ public:
 
 		p = getNextWriteLine();
 		p->task = task;
-
+  
 		nextPlannerIndex( linesWritePos );
 		BEGIN_INTERRUPT_PROTECTED
 		linesCount++;
