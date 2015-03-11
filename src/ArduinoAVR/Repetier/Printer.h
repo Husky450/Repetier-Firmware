@@ -622,7 +622,7 @@ public:
 				// the z-max endstop was hit a few steps ago, so the z-min endstop can not be hit right now
 				return false;
 			}
-
+				
 			if( lastZDirection > 0 )
 			{
 				// z-min was not hit and we are moving downwards, so z-min can not become hit right now
@@ -632,7 +632,7 @@ public:
 			// the last z-direction is unknown or the heat bed has been moved upwards, thus we have to assume that the z-min endstop is hit
 			endstopZMinHit		  = ENDSTOP_IS_HIT;
 			endstopZMaxHit		  = ENDSTOP_NOT_HIT;
-			stepsSinceZMinEndstop = 0;
+			stepsSinceZMinEndstop = Z_ENDSTOP_MIN_TO_MAX_INITIAL_STEPS;
 			stepsSinceZMaxEndstop = 0;
 			return true;
 		}
@@ -692,24 +692,26 @@ public:
 				// we remember that the z-max endstop is hit at the moment
 				return true;
 			}
-
+				
 			if( stepsSinceZMinEndstop && stepsSinceZMinEndstop < MINIMAL_Z_ENDSTOP_MIN_TO_MAX_STEPS )
 			{
 				// the z-min endstop was hit a few steps ago, so the z-max endstop can not be hit right now
 				return false;
 			}
-
+				
 			if( lastZDirection < 0 )
 			{
 				// z-max was not hit and we are moving upwards, so z-max can not become hit right now
 				return false;
 			}
 
+//			g_debugInt32 = stepsSinceZMinEndstop;
+
 			// the last z-direction is unknown or the heat bed has been moved downwards, thus we have to assume that the z-max endstop is hit
 			endstopZMinHit		  = ENDSTOP_NOT_HIT;
 			endstopZMaxHit		  = ENDSTOP_IS_HIT;
 			stepsSinceZMinEndstop = 0;
-			stepsSinceZMaxEndstop = 0;
+			stepsSinceZMaxEndstop = Z_ENDSTOP_MAX_TO_MIN_INITIAL_STEPS;
 			return true;
 		}
 
@@ -753,7 +755,15 @@ public:
     }
     static inline bool isAnyTempsensorDefect()
     {
-        return (flag0 & PRINTER_FLAG0_TEMPSENSOR_DEFECT);
+#if FEATURE_CNC_MODE > 0
+		if( Printer::operatingMode != OPERATING_MODE_PRINT )
+		{
+			// we do not support temperature sensors in case we are not in operating mode print
+			return 0;
+		}
+#endif // FEATURE_CNC_MODE > 0
+
+		return (flag0 & PRINTER_FLAG0_TEMPSENSOR_DEFECT);
     }
     static inline bool isManualMoveMode()
     {
