@@ -1,9 +1,47 @@
 
-V 0.91.51dual (2015-01-21)
+V 0.91.55dual (2015-03-11)
 - Adding HZ2 for Dual-Extruder
 - Adding OUT1 for Case fan and Lights
 - EXT1_HOTEND_TYPE can be used now in order to configure which type of hotend is installed.
   - Depending to the chosen type, the default PID parameters are configured.
+  
+V 0.91.55 (2015-03-06)
+- While a heat bed scan, work part scan or the finding of the origin is in progress, the following commands are ignored (except of an according log entry):
+  - G0
+  - G1
+  - G2
+  - G3
+  - G28
+- Sending of these commands could have a serious impact onto the ongoing scan/search because they could interfere with the movements from the scan/search.
+- The ongoing heat bed scan / work part scan can be aborted faster now (e.g. through M3010).
+- Fixing of a compiler error in case FEATURE_WORK_PART_Z_COMPENSATION was not enabled.
+- The default value for FEATURE_CNC_MODE has been changed to 0 (= the CNC mode is not supported).
+  - This change is a security measure because it is not known yet why the z-min endstops of multiple users were destroyed through after the upgrade to V 0.91.53.
+  - For users which want to use the milling functionality of the RF1000 it is still possible to switch FEATURE_CNC_MODE back to 2.
+
+V 0.91.53 (2015-02-25)
+- Redefinition of prog_char in order to allow to compile the sources also with Arduino V 1.6.0.
+  - This version of Arduino outputs a warning about "Low memory available" available memory, but this warning is misguided and can be ignored.
+- Improved clean-up after the end/abort of a print from the SD card.
+  - Previous versions of the firmware might have performed a small additional move into x and/or y-direction after the output of the object.
+- In case the to-be-processed G-code from the SD card contained a non-ASCII character, the interpreter could switch from ASCII to binary - and as a result, it was not able to interpret the following G-code(s) properly.
+- All micro (µ) signs have been replaced through a standard-u in order to avoid problems which occurred at some platforms.
+- Removing of the support for M26, M42, M92 and M251.
+- M30 (delete file) can not be used anymore while the printing/milling from the SD card is in progress.
+- Pausing via the menu of the RF1000 now works in the same way as the pausing via the hardware buttons.
+- The z-compensation matrix is not loaded during the startup of the firmware anymore.
+  - Instead, the z-compensation matrix is loading before it is needed the first time. This allows a significant faster startup of the firmware.
+- The z-compensation works also for negative z-positions in the operating mode "mill".
+- The setting of the x/y start and x/y end positions for the work part scan is more tolerant:
+  - In case the new start position would be right and/or behind the current end position, the new start position is taken over and the end position is set to the same x/y position.
+  - In case the new end position would be left and/or in front of the current start position, the new end position is taken over and the start position is set to the same x/y position.
+- In case the current operating mode is not "print" but "mill", the firmware does not accept the commands for the configuration/reading of (heat bed and extruder) temperatures anymore.
+- Improved handling of print and mill specific M-codes.
+- Fine tunning of settings within Configuration.h:
+  - The G-code script for the output of printed objects has been updated.
+  - A separate G-code script has been introduced for the output of milled objects (see OUTPUT_OBJECT_SCRIPT_MILL).
+- Review of menu texts.
+
 V 0.91.51 (2015-01-14)
 - It was possible to enable the z-compensation multiple times in case M3001 was sent multiple times in a certain order.
 - As a result, the z-compensation value could be applied multiple times because each new enabling of the z-compensation assumed the current z-position to be the not-compensated one.
