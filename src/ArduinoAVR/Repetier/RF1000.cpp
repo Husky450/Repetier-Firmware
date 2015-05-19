@@ -2469,7 +2469,7 @@ int moveZ( int nSteps )
 		if( !nRun )
 		{
 			// process the standard commands from time to time also while the moving in z-direction is in progress
-			runStandardTasks();
+			// runStandardTasks();
 			nRun = 10;
 		}
 
