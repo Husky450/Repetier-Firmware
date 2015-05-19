@@ -1839,7 +1839,7 @@ Enabling of the following feature can be dangerous because it allows to manually
 */
 #define UI_PRINTER_NAME "RF1000-Dual"
 #define UI_PRINTER_COMPANY "Conrad SE"
-#define UI_VERSION_STRING "V " REPETIER_VERSION ".55dual"
+#define UI_VERSION_STRING "V " REPETIER_VERSION ".55bdual"
 
 
 #endif
